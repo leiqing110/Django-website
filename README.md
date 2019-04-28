@@ -1,2 +1,1 @@
-# Django-website
-Django website
+# My first Django website

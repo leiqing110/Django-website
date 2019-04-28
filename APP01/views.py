@@ -1,37 +1,40 @@
 from django.shortcuts import HttpResponse,render,redirect#返回完整的html文件
 from APP01 import models
 from django.db.models import F, Q
+from functools import wraps
 
-def yimi(request):
-    #request参数保存了所有和用户浏览器请求相关的数据
-    #with open("templates/yimi.html","r",encoding="utf-8")as f:
-    #    data = f.read()
-   # return HttpResponse(data)
-    return render(request,"yimi.html")
-def xiaohei(request):
-    #request参数保存了所有和用户浏览器请求相关的数据
-    return HttpResponse('hello xiaohei,小黑真黑呀')
-#保存了路径和函数的对应关系
 
-def login(request):
+def check_login(f):
+    def inner(request,*args,**kwargs):
+        if request.session.get("is_login") == "1":
+            return f()
+        else:
+            return redirect("/login/")
+    return inner
+
+def login(request):#实现登陆操作
     #如果你是get请求
     error_msg = ""
     # if request.method == "GET": #这里GET必须是大写
     #     return render(request, "login.html")
     #如果你是Post请求，我就取出提交的数据，做登陆判断
-    email= request.POST.get("user_email",None)
-    pwd = request.POST.get("user_pwd",None)
-    print(email,pwd)
-    #做是否登陆成功的判断
-    if email == "admin@163.com" and pwd == "123":
-        #登陆成功
-        #回复一个特殊的响应，请求指定的url
-        return redirect("/user_list/")
-    else:
-        #return return render(request, "login.html")
-        error_msg = "邮箱或密码错误"
+    if request.method == "POST":
+        email= request.POST.get("user_email",None)
+        pwd1 = request.POST.get("user_pwd",None)
+        #print(email,pwd)
+    #做是否登陆成功的判断\
+        user = models.AdminInfo.objects.filter(name=email,pwd=pwd1)
+        if user:
+            #登陆成功
+            request.session["is_login"] = "1"
+            #1.生成特殊的字符串
+            #2.特殊字符串当成KEY，z在数据库中的session表中对应一个session value
+            #3.在相应中向浏览器写了一个COOKIE COOKIE的值就是特殊的字符串
+            return redirect("/user_list/")
+    return render(request,"login.html")
+        #error_msg = "邮箱或密码错误"
     #return HttpResponse('ojbk')
-    return render(request,"login.html",{"error":error_msg} )
+   # return render(request,"login.html",{"error":error_msg} )
 
 
 def baobao(request):
@@ -179,7 +182,7 @@ def search_huiyuan(request): #会员信息查找函数
 
         # print(edit_id)
         #print(edit_name)
-        edit_huiyuan = models.Huiyuan.objects.filter(Q(name__icontains=edit)|Q(id=edit))#根据条件筛选
+        edit_huiyuan = models.Huiyuan.objects.filter(Q(name__icontains=edit))#根据条件筛选
 
         return render(request, "huiyuan_list.html", {"all_huiyuan": edit_huiyuan})
 
@@ -190,7 +193,7 @@ def search_good(request):#卖品查找
         # 根据ID获取要修改的对象\
         # print(edit_id)
         #print(edit_name)
-        edit_good = models.Goods.objects.filter(Q(name__icontains=edit)|Q(type_id__name__icontains=edit)|Q(price=edit)|Q(id=edit))#根据条件筛选
+        edit_good = models.Goods.objects.filter(Q(name__icontains=edit)|Q(type_id__name__icontains=edit))#根据条件筛选
 
         return render(request, "goods_list.html", {"all_goods": edit_good})
 def edit_movie(request):

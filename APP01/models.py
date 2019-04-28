@@ -2,6 +2,10 @@ from django.db import models
 
 # Create your models here.
 #ORM相关的只能写在这个文件里，写到别的位置Django找不到
+class AdminInfo(models.Model):#系统管理员
+    id = models.AutoField(primary_key=True)  # 创建一个自增的主键
+    name = models.CharField(max_length=20)  # 创建一个varchar类型的不能为空的字段
+    pwd = models.CharField(max_length=20, default="123")  # 创建用户密码
 
 class UserInfo(models.Model):#用户信息表
     id = models.AutoField(primary_key=True)#创建一个自增的主键
