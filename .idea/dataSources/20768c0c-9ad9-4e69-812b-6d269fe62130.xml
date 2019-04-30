@@ -1332,149 +1332,149 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="361" parent="278" name="PRIMARY">
+    <column id="361" parent="278" name="email">
+      <Position>4</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="362" parent="278" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="362" parent="279" name="id">
+    <column id="363" parent="279" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="279" name="title">
+    <column id="364" parent="279" name="title">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="364" parent="279" name="publisher_id_id">
+    <column id="365" parent="279" name="publisher_id_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="365" parent="279" name="APP01_book_title_80309687_uniq">
+    <index id="366" parent="279" name="APP01_book_title_80309687_uniq">
       <ColNames>title</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="366" parent="279" name="APP01_book_publisher_id_id_2e265cea_fk_APP01_publisher_id">
+    <index id="367" parent="279" name="APP01_book_publisher_id_id_2e265cea_fk_APP01_publisher_id">
       <ColNames>publisher_id_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="367" parent="279" name="PRIMARY">
+    <key id="368" parent="279" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="368" parent="279" name="APP01_book_title_80309687_uniq">
+    <key id="369" parent="279" name="APP01_book_title_80309687_uniq">
       <ColNames>title</ColNames>
       <UnderlyingIndexName>APP01_book_title_80309687_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="369" parent="279" name="APP01_book_publisher_id_id_2e265cea_fk_APP01_publisher_id">
+    <foreign-key id="370" parent="279" name="APP01_book_publisher_id_id_2e265cea_fk_APP01_publisher_id">
       <ColNames>publisher_id_id</ColNames>
       <RefSchemaName>day61</RefSchemaName>
       <RefTableName>app01_publisher</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="370" parent="280" name="id">
+    <column id="371" parent="280" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="280" name="name">
+    <column id="372" parent="280" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="372" parent="280" name="intro">
+    <column id="373" parent="280" name="intro">
       <Position>3</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="373" parent="280" name="price">
+    <column id="374" parent="280" name="price">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="374" parent="280" name="type_id_id">
+    <column id="375" parent="280" name="type_id_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="375" parent="280" name="APP01_goods_type_id_id_6ed137a6_fk_APP01_goods_type_id">
+    <index id="376" parent="280" name="APP01_goods_type_id_id_6ed137a6_fk_APP01_goods_type_id">
       <ColNames>type_id_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="376" parent="280" name="PRIMARY">
+    <key id="377" parent="280" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="377" parent="280" name="APP01_goods_type_id_id_6ed137a6_fk_APP01_goods_type_id">
+    <foreign-key id="378" parent="280" name="APP01_goods_type_id_id_6ed137a6_fk_APP01_goods_type_id">
       <ColNames>type_id_id</ColNames>
       <RefSchemaName>day61</RefSchemaName>
       <RefTableName>app01_goods_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="378" parent="281" name="id">
+    <column id="379" parent="281" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="379" parent="281" name="name">
+    <column id="380" parent="281" name="name">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="380" parent="281" name="APP01_goods_type_name_ca2e55da_uniq">
+    <index id="381" parent="281" name="APP01_goods_type_name_ca2e55da_uniq">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="381" parent="281" name="PRIMARY">
+    <key id="382" parent="281" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="382" parent="281" name="APP01_goods_type_name_ca2e55da_uniq">
+    <key id="383" parent="281" name="APP01_goods_type_name_ca2e55da_uniq">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>APP01_goods_type_name_ca2e55da_uniq</UnderlyingIndexName>
     </key>
-    <column id="383" parent="282" name="id">
+    <column id="384" parent="282" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="384" parent="282" name="name">
+    <column id="385" parent="282" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="282" name="pwd">
+    <column id="386" parent="282" name="pwd">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="386" parent="282" name="price">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>

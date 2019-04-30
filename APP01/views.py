@@ -2,15 +2,18 @@ from django.shortcuts import HttpResponse,render,redirect#返回完整的html文
 from APP01 import models
 from django.db.models import F, Q
 from functools import wraps
+from django.contrib import auth
+from django.contrib import messages
 
+from django.contrib.auth import authenticate, login, logout
 
-def check_login(f):
-    def inner(request,*args,**kwargs):
-        if request.session.get("is_login") == "1":
-            return f()
-        else:
-            return redirect("/login/")
-    return inner
+# def check_login(f):
+#     def inner(request,*args,**kwargs):
+#         if request.session.get("is_login") == "1":
+#             return f()
+#         else:
+#             return redirect("/login/")
+#     return inner
 
 def login(request):#实现登陆操作
     #如果你是get请求
@@ -23,12 +26,14 @@ def login(request):#实现登陆操作
         pwd1 = request.POST.get("user_pwd",None)
         #print(email,pwd)
     #做是否登陆成功的判断\
+
         user = models.AdminInfo.objects.filter(email=email,pwd=pwd1)[0]#返回一个列表,user[0]即为返回对象
+        #将登陆的用户封装到request.user
         if user:
             #登陆成功
             request.session["is_login"] = "1"
-            #request.session["username"] = user[0].name
-            request.session["user_id"] = user.id
+            #request.session["username"] = user.name
+            request.session["user_id"] = user.id#获取对象的ID
             #1.生成特殊的字符串
             #2.特殊字符串当成KEY，z在数据库中的session表中对应一个session value
             #3.在相应中向浏览器写了一个COOKIE COOKIE的值就是特殊的字符串
@@ -38,17 +43,24 @@ def login(request):#实现登陆操作
     #return HttpResponse('ojbk')
    # return render(request,"login.html",{"error":error_msg} )
 
+def logout(request):
+    del request.session["user_id"]
+    messages.success(request, "退出成功")
+    return redirect("/login/")
 
 def user_list(request):
-    user_id = request.session.get("user_id")
+    user_id = request.session.get("user_id")#获取sessiond的user_id
+    if user_id == None:
+        messages.success(request, "您未登录，请先登陆")
+        return redirect("/login/")
+
     user_obj = models.AdminInfo.objects.filter(id=user_id)[0]
+
     #去数据库中查询所有的用户
     #利用ORM这个工具去查询数据库，不用自己去查询
     ret = models.UserInfo.objects.all().order_by("id")
     if user_obj:
         return render(request, "user_list.html", {"user_list": ret,"user":user_obj})
-    else:
-        return render(request, "user_list.html", {"user_list": ret, "user": "匿名用户"})
 
 def add_user(request):
     #第一次请求页面的时候就返回一个页面，让用户填写
@@ -116,7 +128,11 @@ def edit_user(request):
         return HttpResponse("编辑的用户不存在")
 
 def movie_list(request):
-    user_id = request.session.get("user_id")
+    user_id = request.session.get("user_id")  # 获取sessiond的user_id
+    if user_id == None:
+        messages.success(request, "您未登录，请先登陆")
+        return redirect("/login/")
+
     user_obj = models.AdminInfo.objects.filter(id=user_id)[0]
     all_movie = models.Movies.objects.all()
     # 在html页面完成字符串的替换
@@ -176,7 +192,7 @@ def search_huiyuan(request): #会员信息查找函数
 
         # print(edit_id)
         #print(edit_name)
-        edit_huiyuan = models.Huiyuan.objects.filter(Q(name__icontains=edit))#根据条件筛选
+        edit_huiyuan = models.Huiyuan.objects.filter(Q(name__icontains=edit)|Q(id__icontains=edit))#根据条件筛选
 
         return render(request, "huiyuan_list.html", {"all_huiyuan": edit_huiyuan})
 
@@ -223,14 +239,16 @@ def edit_movie(request):
         return HttpResponse("编辑的用户不存在")
 
 def goods_list(request):
-    user_id = request.session.get("user_id")
+    user_id = request.session.get("user_id")  # 获取sessiond的user_id
+    if user_id == None:
+        messages.success(request, "您未登录，请先登陆")
+        return redirect("/login/")
+
     user_obj = models.AdminInfo.objects.filter(id=user_id)[0]
     all_goods= models.Goods.objects.all()
 
     if user_obj:
         return render(request, "goods_list.html", {"all_goods": all_goods,"user": user_obj})
-    else:
-        return render(request, "goods_list.html", {"all_goods": all_goods, "user": "匿名用户"})
 
 
 def add_goods(request):
@@ -279,17 +297,17 @@ def edit_goods(request):
     return render(request,"edit_goods.html",{"good_obj":edit_good_obj,"good_type":ret})
 
 def huiyuan_list(request):
-    user_id = request.session.get("user_id")
+    user_id = request.session.get("user_id")  # 获取sessiond的user_id
+    if user_id == None:
+        messages.success(request, "您未登录，请先登陆")
+        return redirect("/login/")
     user_obj = models.AdminInfo.objects.filter(id=user_id)[0]
     all_huiyuan = models.Huiyuan.objects.all()
 
     if user_obj:
         return render(request, "huiyuan_list.html", {"all_huiyuan": all_huiyuan,"user": user_obj})
-    else:
-        return render(request, "huiyuan_list.html", {"all_huiyuan": all_huiyuan, "user": "匿名用户"})
-    all_huiyuan = models.Huiyuan.objects.all()
-    # 在html页面完成字符串的替换
-    
+
+
 
 def edit_huiyuan(request):
     if request.method =="POST":
